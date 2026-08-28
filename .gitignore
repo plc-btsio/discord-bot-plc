@@ -1,0 +1,90 @@
+# #############################################################
+# # FICHIERS DE CONFIGURATION ET SECRETS (LE PLUS IMPORTANT)
+# # Ne jamais partager les tokens de bot, clés API, ou mots de passe.
+# #############################################################
+
+# Fichier d'environnement principal contenant les secrets
+.env
+.env.local
+.env.development
+.env.production
+
+# Fichiers de configuration qui peuvent contenir des secrets
+config.json
+config.local.json
+settings.json
+credentials.json
+
+# #############################################################
+# # DÉPENDANCES ET FICHIERS PYTHON
+# #############################################################
+
+# Dossiers d'environnement virtuel
+.venv
+venv
+env
+/.*-env
+/.*env
+
+# Fichiers Python compilés (bytecode)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Fichiers de distribution/packaging
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Fichiers docker
+/.devcontainer/
+
+
+# #############################################################
+# # FICHIERS D'IDE ET D'ÉDITEUR
+# #############################################################
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# PyCharm / IntelliJ
+.idea/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Fichiers temporaires (Vim, etc.)
+*.swp
+*~
+
+
+# #############################################################
+# # FICHIERS SYSTÈME (macOS, Windows)
+# #############################################################
+
+# macOS
+.DS_Store
+._*
+
+# Windows
+Thumbs.db
+desktop.ini
+
+
+# #############################################################
+# # LOGS ET BASES DE DONNÉES LOCALES
+# #############################################################
+
+# Tous les fichiers de log
+*.log
+logs/
+
+# Bases de données de test locales (ex: SQLite)
+*.sqlite
+*.sqlite3
+*.db
+db.local

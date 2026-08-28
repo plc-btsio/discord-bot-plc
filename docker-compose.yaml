@@ -1,0 +1,8 @@
+---
+services:
+  bot-discord:
+    image: bot-plc-4
+    container_name: plc-bot
+    restart: unless-stopped
+    env_file:
+      - .env
