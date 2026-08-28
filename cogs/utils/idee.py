@@ -10,7 +10,7 @@ from cogs.ia.ai_chat import MODEL_ID, hf_client, truncate_response
 
 
 try:
-    IDEA_CHANNEL_ID = int(os.getenv("IDEA_CHANNEL_ID", ""))
+    IDEA_CHANNEL_ID = int(os.getenv("IDEA_CHANNEL_ID", "1542989344812306513"))
 except ValueError:
     IDEA_CHANNEL_ID = None
 
