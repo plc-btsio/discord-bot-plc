@@ -1,12 +1,11 @@
-name: Build & Push Docker Image
+name: 📦 Docker
 
-# DÉCLENCHEURS (Triggers)
+# Triggers
 on:
   push:
     tags: 
       - 'v*.*.*'
 
-# VARIABLES D'ENVIRONNEMENT GLOBALES
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
@@ -15,65 +14,54 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
     permissions:
-      contents: read       # Pour lire le code
-      packages: write      # Pour écrire l'image dans le registre
+      contents: read
+      packages: write
 
     steps:
-      # 1. Récupération du code
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7 # https://github.com/actions/checkout
         with:
-          fetch-depth: 0  # Nécessaire pour récupérer tous les tags Git
+          fetch-depth: 0
 
-      # 2. Génération de la version de l'application
       - name: Generate App Version
         id: version
         run: |
-          # Si on est sur un tag exact, ça donne v1.0.0
-          # Si on est sur main après un tag, ça donne v1.0.0-4-g3a1b (version précise)
           echo "APP_VERSION=$(git describe --tags --always --dirty)" >> $GITHUB_OUTPUT
 
-      # 3. Connexion au registre GitHub (GHCR)
       - name: Log in to the Container registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4 # https://github.com/docker/login-action
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }} # Token généré automatiquement par GitHub
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       # * Génération des tags Docker *
       # À partir du tag Git "v1.2.3", on génère :
       #   - ghcr.io/org/app:v1.2.3  → version exacte (immuable)
       #   - ghcr.io/org/app:v1.2    → majeur.mineur (reçoit les patchs)
-      #   - ghcr.io/org/app:v1      → majeur seul   ← FluxCD pointe ici
+      #   - ghcr.io/org/app:v1      → majeur seul
       #   - ghcr.io/org/app:latest  → dernier build
-      #
-      # FluxCD avec ImagePolicy semver: '>= 1.0.0 < 2.0.0'
-      # mettra à jour automatiquement tant qu'on reste en v1.x.x
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@v6 # https://github.com/docker/metadata-action
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
             # Tag semver complet : v1.2.3
             type=semver,pattern={{version}}
-            # Majeur.mineur : v1.2 (reçoit automatiquement les patchs)
+            # Majeur.mineur : v1.2
             type=semver,pattern={{major}}.{{minor}}
-            # Majeur seul : v1 (point d'entrée stable pour FluxCD)
+            # Majeur seul : v1
             type=semver,pattern={{major}}
             # Latest : toujours sur le dernier tag
             type=raw,value=latest
 
-      # 4. Construction et Envoi (Build & Push)
       - name: Build and push Docker image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v7 # https://github.com/docker/build-push-action
         with:
           context: .
           push: true
-          # Utilise les tags générés à l'étape 3
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          # Injection de la version pour l'injection dans le code PYTHON.
           build-args: |
             APP_VERSION=${{ steps.version.outputs.APP_VERSION }}
