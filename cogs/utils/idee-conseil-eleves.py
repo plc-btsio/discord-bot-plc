@@ -23,7 +23,7 @@ class IdeaFeature(commands.Cog):
         logo_file = discord.File("img/favicon.jpg", filename="logo-bot-plc.jpg")
 
         embed = discord.Embed(
-            title="💡 | Proposition d'idée - Conseil des élèves",
+            title="💡・Proposition d'idée - Conseil des élèves",
             color=discord.Color.yellow() 
         )
         embed.add_field(name="Auteur", value=interaction.user.mention, inline=False)
