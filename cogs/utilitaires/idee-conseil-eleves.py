@@ -3,8 +3,17 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 from datetime import datetime
+from utils.logger import send_log
+
+#########################################
+# VARIABLE
+#########################################
 
 FALLBACK_FORUM_ID = 1543221330348871720
+
+#########################################
+# DISCORD COMMAND
+#########################################
 
 class IdeaFeature(commands.Cog):
     def __init__(self, bot):
@@ -20,18 +29,19 @@ class IdeaFeature(commands.Cog):
         if not isinstance(forum, discord.ForumChannel):
             return await interaction.followup.send("Erreur : Le salon cible n'est pas un forum.", ephemeral=True)
 
-        logo_file = discord.File("img/favicon.jpg", filename="logo-bot-plc.jpg")
-
         embed = discord.Embed(
             title="💡・Proposition d'idée - Conseil des élèves",
             color=discord.Color.yellow() 
         )
         embed.add_field(name="Auteur", value=interaction.user.mention, inline=False)
         embed.add_field(name="Description", value=description, inline=False)
-        
-        date_jour = datetime.now().strftime("%d/%m/%Y")
+
+        # Footer
+        logo_file = discord.File("img/favicon.jpg", filename="logo-bot-plc.jpg")
+        date_jour = datetime.now().strftime("%d/%m/%Y %H:%M")
         embed.set_footer(text=f"Utilitaires - idée conseil des élèves • {date_jour}", icon_url="attachment://logo-bot-plc.jpg")
 
+        # Tag
         tag_cible = discord.utils.get(forum.available_tags, name="Non traité")
         tags_a_appliquer = [tag_cible] if tag_cible else []
 
@@ -48,9 +58,11 @@ class IdeaFeature(commands.Cog):
             await message_initial.add_reaction("👎")
 
             await interaction.followup.send(f"Ton idée est postée : {thread_with_message.thread.mention}", ephemeral=True)
+            await send_log(self.bot, f"Idée '{titre}' créée avec succès.", interaction=interaction, level="DEBUG")
 
         except Exception as e:
             await interaction.followup.send(f"Erreur lors de la création : {e}", ephemeral=True)
+            await send_log(self.bot, str(e), interaction=interaction, level="ERROR")
 
 async def setup(bot):
     await bot.add_cog(IdeaFeature(bot))

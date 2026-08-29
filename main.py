@@ -1,11 +1,13 @@
 import discord
 import os
 from discord.ext import commands
+from utils.logger import send_log
 
-# --- 1. Configuration et Chargement ---
+#########################################
+# VARIABLE
+#########################################
 
 DISCORD_TOKEN = os.getenv("DISCORD_BOT_TOKEN")
-
 
 # Récupération automatique des cogs dans les sous-dossiers
 async def load_cogs():
@@ -17,9 +19,9 @@ async def load_cogs():
                     cog_path = f"cogs.{folder}.{filename[:-3]}"
                     try:
                         await bot.load_extension(cog_path)
-                        print(f"✅ Cog chargé : {cog_path}")
+                        await send_log(bot, f"✅ Cog chargé : {cog_path}", level="DEBUG")
                     except Exception as e:
-                        print(f"❌ Erreur de chargement du cog {cog_path} : {e}")
+                        await send_log(bot, f"❌ Erreur de chargement du cog {cog_path} : {e}", level="ERROR")
 
 
 # Permissions du bot
@@ -38,18 +40,19 @@ async def on_ready():
     await load_cogs()  # Chargement des cogs
     try:
         synced = await bot.tree.sync()  # Synchronisation des commandes slash
-        print(f"{len(synced)} commandes slash synchronisées !")
+        await send_log(bot, f"{len(synced)} commandes slash synchronisées !", level="INFO")
+        await send_log(bot, f"🚀 Décollage achevé", level="INFO")
     except Exception as e:
-        print(e)
+        await send_log(bot, f"ERREUR : {e}", level="ERROR")
 
 
-# Gestion des Erreurs Globales
+# Gestion des erreurs globales
 @bot.event
 async def on_command_error(ctx, error):
     """Gestion des erreurs de commandes préfixées"""
     if isinstance(error, commands.CommandNotFound):
         return
-    print(f"❌ Erreur de commande : {error}")
+    await send_log(bot, f"❌ Erreur de commande : {error}", level="ERROR")
 
 
 if __name__ == "__main__":

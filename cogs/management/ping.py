@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 from datetime import datetime
 import time
+from utils.logger import send_log
 
 file = discord.File("./img/favicon.jpg", filename="logo-bot-plc.jpg")
 
@@ -33,10 +34,11 @@ class Ping(commands.Cog):
         embed.add_field(name="Latence API", value=f"`{api_latency_ms} ms`", inline=False)
         embed.add_field(name="Traitement de la requête", value=f"`{response_time_ms} ms`", inline=False)
 
-        date_jour = datetime.now().strftime("%d/%m/%Y")
+        date_jour = datetime.now().strftime("%d/%m/%Y %H:%M")
         embed.set_footer(text=f"Management - ping  • {date_jour}", icon_url="attachment://logo-bot-plc.jpg")
 
         await interaction.followup.send(embed=embed, file=file)
+        await send_log(self.bot, f"Ping calculé avec succès.", interaction=interaction, level="DEBUG")
 
 # Enregistrement sur le Cog
 async def setup(bot):
