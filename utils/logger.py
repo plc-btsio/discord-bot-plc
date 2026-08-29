@@ -2,7 +2,10 @@ import os
 import discord
 from datetime import datetime
 
-# Hiérarchie des niveaux de logs (plus le chiffre est haut, plus c'est critique)
+#########################################
+# VARIABLE
+#########################################
+
 LOG_LEVELS = {
     "DEBUG": 10,
     "INFO": 20,
@@ -10,17 +13,21 @@ LOG_LEVELS = {
     "ERROR": 40
 }
 
+#########################################
+# LOGGER
+#########################################
+
 async def send_log(bot: discord.Client, message: str, interaction: discord.Interaction = None, level: str = "INFO"):
+
     level = level.upper()
     
     # Vérification du niveau minimum requis
     current_mode = os.getenv("DEBUG_MODE", "INFO").upper()
     
-    # Si le log actuel est moins important que la configuration du .env, on stoppe tout
+    # Si le log actuel est moins important que la configuration du .env
     if LOG_LEVELS.get(level, 20) < LOG_LEVELS.get(current_mode, 20):
         return
 
-    # Suite du code inchangée
     cmd_name = interaction.command.name if interaction and interaction.command else "Système"
     print(f"[{level}] {cmd_name} | {message}")
 
@@ -39,17 +46,24 @@ async def send_log(bot: discord.Client, message: str, interaction: discord.Inter
     }
     
     embed = discord.Embed(
-        title=f"🔧 Log | {cmd_name}",
-        description=f"```{message}```",
-        color=colors.get(level, discord.Color.default()),
-        timestamp=datetime.utcnow()
+        title=f"🔧 Log ・ {cmd_name}",
+        color=colors.get(level, discord.Color.default())
     )
     
     if interaction:
-        embed.add_field(name="Utilisateur", value=f"{interaction.user} ({interaction.user.mention})")
+        embed.add_field(name="Utilisateur", value=f"{interaction.user.mention}")
         embed.add_field(name="Salon", value=interaction.channel.mention if interaction.channel else "DM")
 
+    # Transcript
+    embed.add_field(name="Niveau", value=f"{level}", inline=True)
+    embed.add_field(name="Transcript", value=f"```{message}```", inline=False)
+
+    # Footer
+    logo_file = discord.File("img/favicon.jpg", filename="logo-bot-plc.jpg")
+    date_jour = datetime.now().strftime("%d/%m/%Y %H:%M")
+    embed.set_footer(text=f"Système - log • {date_jour}", icon_url="attachment://logo-bot-plc.jpg")
+
     try:
-        await channel.send(embed=embed)
+        await channel.send(embed=embed, file=logo_file)
     except Exception as e:
-        print(f"[ERROR] Impossible d'envoyer l'embed de log : {e}")
+        await send_log(f"Idée 'Impossible d'envoyer l'embed de log : {e}", level="ERROR")

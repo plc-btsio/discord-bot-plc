@@ -3,6 +3,11 @@ import discord
 from discord.ext import commands, tasks
 import aiohttp
 import asyncio
+from utils.logger import send_log
+
+#########################################
+# VARIABLE
+#########################################
 
 OPENWEATHER_KEY = os.getenv("OPENWEATHER_API_KEY")
 WEATHER_LOCATION = os.getenv("WEATHER_LOCATION", "Tours,FR")
@@ -20,6 +25,10 @@ EMOJI_MAP = {
     "Fog": "🌫️",
 }
 
+#########################################
+# DISCORD COMMAND
+#########################################
+
 class StatusFeature(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -32,7 +41,8 @@ class StatusFeature(commands.Cog):
 
     async def fetch_weather(self):
         if not OPENWEATHER_KEY:
-            return "WEATHER STATUS | API Key manquante"
+            await send_log(self.bot, f"BOT STATUS - API Key manquante", level="ERROR")
+            return
 
         url = f"http://api.openweathermap.org/data/2.5/weather?q={WEATHER_LOCATION}&appid={OPENWEATHER_KEY}&units=metric&lang=fr"
         
@@ -50,7 +60,8 @@ class StatusFeature(commands.Cog):
                     else:
                         return f"WEATHER STATUS | Erreur API ({response.status})"
         except Exception:
-            return "WEATHER STATUS | Erreur de connexion Météo"
+            await send_log(self.bot, f"BOT STATUS - Erreur de connexion Météo", level="WARNING")
+            return
 
     @tasks.loop(seconds=ROTATION_INTERVAL_SEC)
     async def status_loop(self):

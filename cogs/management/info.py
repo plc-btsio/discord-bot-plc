@@ -1,7 +1,8 @@
 import discord
 from discord.ext import commands
-import datetime
+from datetime import datetime
 import os
+from utils.logger import send_log
 
 #########################################
 # VARIABLE
@@ -22,7 +23,7 @@ file = discord.File("./img/favicon.jpg", filename="logo-bot-plc.jpg")
 class InfoCog(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.start_time = datetime.datetime.utcnow()
+        self.start_time = datetime.now()
 
     # Commande slash
     @discord.app_commands.command(name="info", description="Affiche des informations sur le bot.")
@@ -31,7 +32,7 @@ class InfoCog(commands.Cog):
         await interaction.response.defer()
 
         # Calcul de l'uptime
-        now = datetime.datetime.utcnow()
+        now = datetime.now()
         uptime = now - self.start_time
         uptime_str = str(uptime).split(".")[0]  # Affiche uniquement heures:minutes:secondes
 
@@ -49,7 +50,8 @@ class InfoCog(commands.Cog):
         embed.add_field(name="Uptime", value=uptime_str, inline=True)
 
         # --- Footer ---
-        embed.set_footer(text=f"Management - informations  • 💖 Développé des étudiants du BTS SIO", icon_url="attachment://logo-bot-plc.jpg")
+        date_jour = datetime.now().strftime("%d/%m/%Y %H:%M")
+        embed.set_footer(text=f"Management - informations  • {date_jour}", icon_url="attachment://logo-bot-plc.jpg")
 
         # --- Boutons ---
         view = discord.ui.View()
@@ -58,6 +60,7 @@ class InfoCog(commands.Cog):
 
         embed.set_thumbnail(url="attachment://logo-bot-plc.jpg")
         await interaction.followup.send(embed=embed, file=file, view=view)
+        await send_log(self.bot, f"Informations données avec succès.", interaction=interaction, level="DEBUG")
 
 # Enregistrement sur le Cog
 async def setup(bot: commands.Bot):

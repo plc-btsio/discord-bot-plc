@@ -40,8 +40,8 @@ async def on_ready():
     await load_cogs()  # Chargement des cogs
     try:
         synced = await bot.tree.sync()  # Synchronisation des commandes slash
-        await send_log(bot, f"🚀 Décollage achevé", level="INFO")
         await send_log(bot, f"{len(synced)} commandes slash synchronisées !", level="INFO")
+        await send_log(bot, f"🚀 Décollage achevé", level="INFO")
     except Exception as e:
         await send_log(bot, f"ERREUR : {e}", level="ERROR")
 
