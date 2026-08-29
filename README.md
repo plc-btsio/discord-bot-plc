@@ -16,6 +16,7 @@ Il a été conçu pour le serveur Discord du BTS afin d'**automatiser les tâche
 | **Veille Technologique** | Publication automatique | 𝗣𝘂𝗯𝗹𝗶𝗰𝗮𝘁𝗶𝗼𝗻 𝗮𝘂𝘁𝗼𝗺𝗮𝘁𝗶𝗾𝘂𝗲 d’articles de veille technologique dans un salon dédié, accompagnée d’un **résumé généré par IA**. |
 | **Veille CVE** | Publication automatique | 𝗣𝘂𝗯𝗹𝗶𝗰𝗮𝘁𝗶𝗼𝗻 𝗮𝘂𝘁𝗼𝗺𝗮𝘁𝗶𝗾𝘂𝗲 d’articles de CVE publié par le **CIRCL** dans un salon dédié. |
 | **IA Conversationnelle** | `/ask`                  | 𝗜𝗻𝘁𝗲𝗿𝗮𝗰𝘁𝗶𝗼𝗻 𝗮𝘃𝗲𝗰 𝘂𝗻𝗲 𝗜𝗔 (modèle **LLaMA**) pour poser des questions techniques directement depuis Discord.                   |
+| **Conseil des élèves** | `/propose-idee` | 𝗣𝗿𝗼𝗽𝗼𝘀𝗶𝘁𝗶𝗼𝗻 d’idées mises en forme par l’IA dans le salon dédié. |
 
 ---
 
@@ -52,6 +53,7 @@ services:
 ```.env
 VEILLE_CVE_CHANNEL_ID="votre_salon_cve"
 VEILLE_CHANNEL_ID="votre_salon_veille_tech"
+IDEA_CHANNEL_ID="votre_salon_idees"
 DISCORD_BOT_TOKEN="token_de_votre_bot"
 HF_TOKEN="token_api_ia"
 ```
