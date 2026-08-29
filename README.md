@@ -88,6 +88,8 @@ Copier .env.example -> insérer vos clés API et les ID des salons
 | `DISCORD_BOT_TOKEN` | Jeton secret d'authentification indispensable pour connecter le code à l'API Discord. |
 | `IDEA_CHANNEL_ID` | Identifiant numérique unique du salon de type "Forum" où le bot publiera les idées. |
 | `OPENWEATHER_API_KEY` | Clé secrète fournie par OpenWeather permettant d'autoriser les requêtes vers leur API météo. |
+| `DEBUG_MODE` | Niveau d'affichage des journaux du bot (DEBUG, INFO, WARNING, ERROR). |
+| `LOG_CHANNEL_ID` | ID du salon pour envoyer les journaux du bot. |
 
 **4. Lancer le projet localement.**
 
