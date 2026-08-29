@@ -47,7 +47,7 @@ L'application est structurée autour des **cogs** de `discord.py` pour garantir 
 
 Voici la section réécrite selon ta structure exacte :
 
-**1. Cloner le dépôt.** Télécharge le code source du projet sur ta machine pour pouvoir travailler dessus.
+**1. Cloner le dépôt.**
 
 ```bash
 git clone https://github.com/plc-btsio/discord-bot-plc.git
@@ -57,7 +57,7 @@ cd discord-bot-plc
 * `git clone <url>` : Copie l'intégralité du dépôt distant sur ton ordinateur.
 * `cd <dossier>` : Change le répertoire courant pour entrer dans le dossier fraîchement téléchargé.
 
-**2. Créer la branche de travail.** Isole tes futurs développements du code principal pour tester sans casser l'existant.
+**2. Créer la branche de travail.**
 
 ```bash
 git checkout -b feat/nouvelle-fonctionnalite
@@ -67,22 +67,20 @@ git checkout -b feat/nouvelle-fonctionnalite
 * `-b` : Argument qui demande à Git de créer cette nouvelle branche avant de basculer dessus.
 * `feat/...` : Convention de nommage (feat pour feature/fonctionnalité, fix pour correction).
 
-**3. Configurer les variables d'environnement.** Prépare le fichier secret contenant les identifiants nécessaires au lancement.
+**3. Configurer les variables d'environnement.**
 
-```bash
-cp .env.example .env
+```text
+Copier .env.example -> insérer vos clés API et les ID des salons
 ```
 
-* `cp <source> <destination>` : Copie le fichier d'exemple (template) pour créer ton propre fichier `.env` que tu pourras modifier avec ton token Discord. Le `.env` est ignoré par Git, ce qui sécurise tes clés.
-
-**4. Lancer le projet localement.** Démarre le bot dans un environnement isolé via Docker pour tester tes modifications.
+**4. Lancer le projet localement.**
 
 ```bash
 docker compose up --build
 ```
 
 * `up` : Ordonne à Docker Compose de créer et démarrer les conteneurs définis dans le fichier `yaml`.
-* `--build` : Force Docker à reconstruire l'image du conteneur. C'est indispensable pour que Docker prenne en compte les modifications que tu viens de faire dans le code source Python.
+* `--build` : Force Docker à reconstruire l'image du conteneur. C'est indispensable pour que Docker prenne en compte les modifications faites dans le code source Python.
 
 ---
 
