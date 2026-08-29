@@ -3,6 +3,11 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 from datetime import datetime
+from utils.logger import send_log
+
+#########################################
+# VARIABLE
+#########################################
 
 FALLBACK_FORUM_ID = 1543221330348871720
 
@@ -48,9 +53,11 @@ class IdeaFeature(commands.Cog):
             await message_initial.add_reaction("👎")
 
             await interaction.followup.send(f"Ton idée est postée : {thread_with_message.thread.mention}", ephemeral=True)
+            await send_log(self.bot, f"Idée '{titre}' créée avec succès.", interaction=interaction, level="INFO")
 
         except Exception as e:
             await interaction.followup.send(f"Erreur lors de la création : {e}", ephemeral=True)
+            await send_log(self.bot, str(e), interaction=interaction, level="ERROR")
 
 async def setup(bot):
     await bot.add_cog(IdeaFeature(bot))

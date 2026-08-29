@@ -3,11 +3,19 @@ from discord.ext import commands
 import datetime
 import os
 
+#########################################
+# VARIABLE
+#########################################
+
 VERSION = os.getenv("APP_VERSION", "N/A")
 LANGAGE = "Python 🐍"
 URL_RELEASE = f"https://github.com/plc-btsio/discord-bot-plc/releases/tag/{VERSION}"
 URL_REPO = "https://github.com/plc-btsio/discord-bot-plc"
 URL_CONTRIBUTORS = "https://github.com/plc-btsio/discord-bot-plc/graphs/contributors?all=1"
+
+#########################################
+# DISCORD COMMAND
+#########################################
 
 file = discord.File("./img/favicon.jpg", filename="logo-bot-plc.jpg")
 
