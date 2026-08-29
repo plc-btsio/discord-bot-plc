@@ -1,6 +1,9 @@
 import discord
 from discord.ext import commands
+from datetime import datetime
 import time
+
+file = discord.File("./img/favicon.jpg", filename="logo-bot-plc.jpg")
 
 class Ping(commands.Cog):
     def __init__(self, bot: commands.Bot):
@@ -24,16 +27,16 @@ class Ping(commands.Cog):
 
         # Créer l'embed
         embed = discord.Embed(
-            title="🏓・PING",
+            title="🏓・Ping",
             color=0x212554
         )
         embed.add_field(name="Latence API", value=f"`{api_latency_ms} ms`", inline=False)
         embed.add_field(name="Traitement de la requête", value=f"`{response_time_ms} ms`", inline=False)
 
-        embed.set_footer(text=f" *💖 Développé par la promo 2025 du BTS SIO*")
+        date_jour = datetime.now().strftime("%d/%m/%Y")
+        embed.set_footer(text=f"Management - ping  • {date_jour}", icon_url="attachment://logo-bot-plc.jpg")
 
-        await interaction.followup.send(embed=embed)
-
+        await interaction.followup.send(embed=embed, file=file)
 
 # Enregistrement sur le Cog
 async def setup(bot):
