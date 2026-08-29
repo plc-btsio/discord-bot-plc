@@ -14,8 +14,14 @@ ENV APP_VERSION=${APP_VERSION}
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Utilisateur non-root
+RUN useradd -m plc
+
 # Copier le reste des fichiers de l'application
-COPY . .
+COPY --chown=plc:plc . .
+
+# Basculer sur l'utilisateur non-root
+USER plc
 
 # Commande pour lancer l'application
 CMD ["python", "-u", "main.py"]
