@@ -1,8 +1,6 @@
 import discord
 from discord.ext import commands
-from variables import VERSION
 import time
-
 
 class Ping(commands.Cog):
     def __init__(self, bot: commands.Bot):
@@ -32,7 +30,7 @@ class Ping(commands.Cog):
         embed.add_field(name="Latence API", value=f"`{api_latency_ms} ms`", inline=False)
         embed.add_field(name="Traitement de la requête", value=f"`{response_time_ms} ms`", inline=False)
 
-        embed.set_footer(text=f"{VERSION} | *💖 Développé par la promo 2025 du BTS SIO*")
+        embed.set_footer(text=f" *💖 Développé par la promo 2025 du BTS SIO*")
 
         await interaction.followup.send(embed=embed)
 
