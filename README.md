@@ -45,8 +45,6 @@ L'application est structurée autour des **cogs** de `discord.py` pour garantir 
 
 ## 🚀 Utiliser le dépôt
 
-Voici la section réécrite selon ta structure exacte :
-
 **1. Cloner le dépôt.**
 
 ```bash
@@ -67,11 +65,29 @@ git checkout -b feat/nouvelle-fonctionnalite
 * `-b` : Argument qui demande à Git de créer cette nouvelle branche avant de basculer dessus.
 * `feat/...` : Convention de nommage (feat pour feature/fonctionnalité, fix pour correction).
 
+**Nommage des branches :**
+
+| Exemple | Description |
+| --- | --- |
+| `feat/ajout-slash-command` | **Feature** : Ajout d'une nouvelle fonctionnalité au projet. |
+| `fix/crash-api-meteo` | **Fix** : Correction d'un bug ou d'une erreur dans le code existant. |
+| `docs/update-readme` | **Documentation** : Création ou modification des fichiers de documentation. |
+| `chore/update-discord-py` | **Chore** : Tâche de maintenance logicielle (mise à jour des dépendances, configuration). |
+| `refactor/optimisation-cogs` | **Refactor** : Réorganisation ou amélioration du code sans changer son comportement final. |
+
 **3. Configurer les variables d'environnement.**
 
 ```text
 Copier .env.example -> insérer vos clés API et les ID des salons
 ```
+
+**Variables d'environnement :**
+
+| Nom | Description |
+| --- | --- |
+| `DISCORD_BOT_TOKEN` | Jeton secret d'authentification indispensable pour connecter le code à l'API Discord. |
+| `IDEA_CHANNEL_ID` | Identifiant numérique unique du salon de type "Forum" où le bot publiera les idées. |
+| `OPENWEATHER_API_KEY` | Clé secrète fournie par OpenWeather permettant d'autoriser les requêtes vers leur API météo. |
 
 **4. Lancer le projet localement.**
 
