@@ -1,70 +1,103 @@
-## 🤖 - Bot Discord Paul Louis Courier (PLC-Bot)
+# 🤖 PLC-Bot — Bot Discord du BTS SIO
 
-## 🚀 - Présentation du Projet :
+![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)
+![Docker](https://img.shields.io/badge/Docker-Supported-blue.svg)
+![Framework](https://img.shields.io/badge/discord.py-2.4+-green.svg)
 
-Le **PLC-Bot** est un projet collaboratif mené par les étudiants du **BTS Services Informatiques aux Organisations (SIO)** du **Lycée Paul-Louis Courier**.
+## 🚀 Présentation
 
-Il a été conçu pour le serveur Discord du BTS afin d'**automatiser les tâches d'administration** et de relayer les dernières informations de **Pronote** directement sur le Discord (modifications d'emploi du temps, menu de la cantine, etc.).
+Le projet **PLC-Bot** est l'assistant Discord officiel développé par et pour les étudiants du **BTS Services Informatiques aux Organisations (SIO)** du **Lycée Paul-Louis Courier**.
 
----
-
-## ✨ - Fonctionnalités Actuelles (Déployées) :
-
-|         Catégorie        | Commande / Fonction     | Description Détaillée                                                                                                                            |
-| :----------------------: | :---------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------- |
-|         **Base**         | `/help`, `/ping`        | Commandes d'aide et de vérification de l'état du Bot. **Messages de bienvenue** automatiques aux nouveaux membres.                               |
-| **Veille Technologique** | Publication automatique | 𝗣𝘂𝗯𝗹𝗶𝗰𝗮𝘁𝗶𝗼𝗻 𝗮𝘂𝘁𝗼𝗺𝗮𝘁𝗶𝗾𝘂𝗲 d’articles de veille technologique dans un salon dédié, accompagnée d’un **résumé généré par IA**. |
-| **Veille CVE** | Publication automatique | 𝗣𝘂𝗯𝗹𝗶𝗰𝗮𝘁𝗶𝗼𝗻 𝗮𝘂𝘁𝗼𝗺𝗮𝘁𝗶𝗾𝘂𝗲 d’articles de CVE publié par le **CIRCL** dans un salon dédié. |
-| **IA Conversationnelle** | `/ask`                  | 𝗜𝗻𝘁𝗲𝗿𝗮𝗰𝘁𝗶𝗼𝗻 𝗮𝘃𝗲𝗰 𝘂𝗻𝗲 𝗜𝗔 (modèle **LLaMA**) pour poser des questions techniques directement depuis Discord.                   |
-| **Conseil des élèves** | `/propose-idee` | 𝗣𝗿𝗼𝗽𝗼𝘀𝗶𝘁𝗶𝗼𝗻 d’idées mises en forme par l’IA dans le salon dédié. |
+Conçu avec une approche DevOps, son objectif est d’**assister l’administration du serveur**, d’**automatiser la diffusion d’informations** et de fournir des outils pratiques (météo, boîte à idées) via une architecture modulaire hautement maintenable.
 
 ---
 
-## 🚧 - Fonctionnalités en Cours de Développement :
+## ✨ Fonctionnalités du bot
 
-|  Catégorie  | Commande / Fonction        | Description Détaillée                                                                                                                                                |
-| :---------: | :------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Pronote** | Notifications automatiques | 𝗡𝗼𝘁𝗶𝗳𝗶𝗰𝗮𝘁𝗶𝗼𝗻 𝗱𝗲𝘀 𝗰𝗵𝗮𝗻𝗴𝗲𝗺𝗲𝗻𝘁𝘀 𝗣𝗿𝗼𝗻𝗼𝘁𝗲 *(professeur absent, cours modifié, etc.)* — **fonctionnalité actuellement en développement.** |
-
----
-
-## 💡 - Fonctionnalités Futures (Projets à venir) :
-
-* **Intégration Pronote/Éléa** : Notification des **notes** ou des **devoirs** récents (nécessite une connexion API sécurisée et validée).
-* **Administration** : Commandes avancées pour la **modération** et l'**organisation** du serveur.
+| Fonctionnalité | Description | Commande / Déclencheur |
+| :--- | :--- | :--- |
+| **Informations** | Affiche la version, l'uptime et le lien du dépôt | `/info` |
+| **Diagnostic** | Mesure la latence de l'API Discord | `/ping` |
+| **Boîte à idées** | Soumet une idée formatée au conseil des élèves | `/idee-conseil-eleve` |
+| **Statut dynamique** | Rotation automatique (Météo locale / GitHub) | *Automatique (Tâche de fond)* |
 
 ---
 
-## 📦 Utilisation du bot
+## 🏗️ Architecture du dépôt
 
-1. Copier le docker compose ci-dessous.
-```yaml
----
-services:
-  bot-plc:
-    image: ghcr.io/lycee-paul-louis-courier-bts-sio/discord-bot-plc:latest
-    container_name: bot-plc
-    restart: unless-stopped
-    env_file:
-      - .env
-```
+L'application est structurée autour des **cogs** de `discord.py` pour garantir l'isolation des fonctionnalités :
 
-2. Remplir le `.env` comme ceci :
-```.env
-VEILLE_CVE_CHANNEL_ID="votre_salon_cve"
-VEILLE_CHANNEL_ID="votre_salon_veille_tech"
-IDEA_CHANNEL_ID="votre_salon_idees"
-DISCORD_BOT_TOKEN="token_de_votre_bot"
-HF_TOKEN="token_api_ia"
+```text
+.
+├── cogs/
+│   ├── management/       # Commandes d'administration et de diagnostic
+│   └── utilitaires/      # Outils utilisateurs (météo, idées, statut)
+├── img/                  # Ressources statiques (favicon)
+├── main.py               # Point d'entrée de l'application
+├── docker-compose.yaml   # Manifeste de déploiement conteneurisé
+├── Dockerfile            # Recette de construction de l'image
+├── requirements.txt      # Dépendances Python
+├── CONTRIBUTING.md       # Standards de code et règles d'IA
+└── .env.example          # Template des variables d'environnement
 ```
 
 ---
 
-## 🤝 - Contribution :
+## 🚀 Utiliser le dépôt
 
-Ce projet est la propriété et l'initiative des étudiants du **BTS SIO du Lycée Paul-Louis Courier**.
-Nous **encourageons la collaboration** et les suggestions.
+**1. Cloner le dépôt.**
 
-Pour toute question, contribution ou opportunité de partenariat, veuillez contacter l'un des **responsables de projet** ou le **coordinateur de la filière**.
+```bash
+git clone https://github.com/plc-btsio/discord-bot-plc.git
+cd discord-bot-plc
+```
 
-*💖 Développé avec passion par la promotion **2025** du BTS SIO.*
+* `git clone <url>` : Copie l'intégralité du dépôt distant sur ton ordinateur.
+* `cd <dossier>` : Change le répertoire courant pour entrer dans le dossier fraîchement téléchargé.
+
+**2. Créer la branche de travail.**
+
+```bash
+git checkout -b feat/nouvelle-fonctionnalite
+```
+
+* `checkout` : Commande Git pour changer de branche.
+* `-b` : Argument qui demande à Git de créer cette nouvelle branche avant de basculer dessus.
+* `feat/...` : Convention de nommage (feat pour feature/fonctionnalité, fix pour correction).
+
+**Nommage des branches :**
+
+| Exemple | Description |
+| --- | --- |
+| `feat/ajout-slash-command` | **Feature** : Ajout d'une nouvelle fonctionnalité au projet. |
+| `fix/crash-api-meteo` | **Fix** : Correction d'un bug ou d'une erreur dans le code existant. |
+| `docs/update-readme` | **Documentation** : Création ou modification des fichiers de documentation. |
+| `chore/update-discord-py` | **Chore** : Tâche de maintenance logicielle (mise à jour des dépendances, configuration). |
+| `refactor/optimisation-cogs` | **Refactor** : Réorganisation ou amélioration du code sans changer son comportement final. |
+
+**3. Configurer les variables d'environnement.**
+
+```text
+Copier .env.example -> insérer vos clés API et les ID des salons
+```
+
+**Variables d'environnement :**
+
+| Nom | Description |
+| --- | --- |
+| `DISCORD_BOT_TOKEN` | Jeton secret d'authentification indispensable pour connecter le code à l'API Discord. |
+| `IDEA_CHANNEL_ID` | Identifiant numérique unique du salon de type "Forum" où le bot publiera les idées. |
+| `OPENWEATHER_API_KEY` | Clé secrète fournie par OpenWeather permettant d'autoriser les requêtes vers leur API météo. |
+
+**4. Lancer le projet localement.**
+
+```bash
+docker compose up --build
+```
+
+* `up` : Ordonne à Docker Compose de créer et démarrer les conteneurs définis dans le fichier `yaml`.
+* `--build` : Force Docker à reconstruire l'image du conteneur. C'est indispensable pour que Docker prenne en compte les modifications faites dans le code source Python.
+
+---
+
+*💖 Développé avec passion par Louis MEDO, Louis Biseray, Ewen Gadonnaud et la promotion du BTS SIO.*

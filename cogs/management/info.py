@@ -1,8 +1,15 @@
 import discord
 from discord.ext import commands
-from variables import VERSION, DEVELOPPEURS
 import datetime
+import os
 
+VERSION = os.getenv("APP_VERSION", "N/A")
+LANGAGE = "Python 🐍"
+URL_RELEASE = f"https://github.com/plc-btsio/discord-bot-plc/releases/tag/{VERSION}"
+URL_REPO = "https://github.com/plc-btsio/discord-bot-plc"
+URL_CONTRIBUTORS = "https://github.com/plc-btsio/discord-bot-plc/graphs/contributors?all=1"
+
+file = discord.File("./img/favicon.jpg", filename="logo-bot-plc.jpg")
 
 class InfoCog(commands.Cog):
     def __init__(self, bot: commands.Bot):
@@ -22,40 +29,27 @@ class InfoCog(commands.Cog):
 
         # Embed d'information
         embed = discord.Embed(
-            title="📊・INFORMATIONS",
+            title="📊・Informations",
             color=0x212554
         )
 
         # --- Général ---
-        embed.add_field(name="Version", value=VERSION, inline=True)
-        embed.add_field(name="Langage", value="Python 🐍", inline=True)
-        embed.add_field(name="Dernière mise à jour", value="22/10/2025", inline=True)
+        embed.add_field(name="Version", value=f"[{VERSION}]({URL_RELEASE})", inline=True)
+        embed.add_field(name="Langage", value=LANGAGE, inline=True)
 
         # --- Technique ---
         embed.add_field(name="Uptime", value=uptime_str, inline=True)
 
-        # --- Participants ---
-        embed.add_field(name="Participants", value=", ".join(DEVELOPPEURS), inline=False)
-
         # --- Footer ---
-        embed.set_footer(text=f"{VERSION} | 💖 Développé par la promo 2025 du BTS SIO")
+        embed.set_footer(text=f"Management - informations  • 💖 Développé des étudiants du BTS SIO", icon_url="attachment://logo-bot-plc.jpg")
 
         # --- Boutons ---
         view = discord.ui.View()
-        view.add_item(discord.ui.Button(label="GitHub", url="https://github.com/lycee-paul-louis-courier-bts-sio/discord-bot-plc"))
-        view.add_item(discord.ui.Button(
-            label="Tableau Kanban",
-            url=(
-                "https://www.notion.so/louismedo/"
-                "Fonctionnalit-PLC-BOT-293bef81d6dc8086bc1dd188ccae5e63?source=copy_link"
-                )
-            )
-        )
+        view.add_item(discord.ui.Button(label="GitHub", url=f"{URL_REPO}"))
+        view.add_item(discord.ui.Button(label="Contributeurs", url=f"{URL_CONTRIBUTORS}"))
 
-        file = discord.File("./img/favicon.jpg", filename="favicon.jpg")
-        embed.set_thumbnail(url="attachment://favicon.jpg")
+        embed.set_thumbnail(url="attachment://logo-bot-plc.jpg")
         await interaction.followup.send(embed=embed, file=file, view=view)
-
 
 # Enregistrement sur le Cog
 async def setup(bot: commands.Bot):
